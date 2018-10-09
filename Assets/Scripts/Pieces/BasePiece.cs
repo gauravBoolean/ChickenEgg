@@ -65,9 +65,20 @@ public abstract class BasePiece : EventTrigger
             currentY += yDirection;
 
 
-            if (currentX >= 0 && currentY >= 0){
+            CellState cellState = CellState.None;
+            cellState = mCurrentCell.mBoard.ValidateCell(currentX, currentY, this);
+
+            if (cellState == CellState.Enemy){
+                mHighlightedCells.Add(mCurrentCell.mBoard.mAllCells[currentX, currentY]);
+                break;
+            }
+            else if (cellState != CellState.Free){
+                break;
+            }
+            else{
                 mHighlightedCells.Add(mCurrentCell.mBoard.mAllCells[currentX, currentY]);
             }
+
         }
     }
 
@@ -159,6 +170,8 @@ public abstract class BasePiece : EventTrigger
         }
 
         Move();
+
+        mPieceManager.SwitchSides(mColor);
     }
     #endregion
 }

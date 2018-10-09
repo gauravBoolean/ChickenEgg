@@ -50,6 +50,26 @@ public class Board : MonoBehaviour
 
     public CellState ValidateCell(int targetX, int targetY, BasePiece checkingPiece)
     {   
+        if(targetX < 0 || targetX > 7){
+            return CellState.OutOfBounds;
+        }
+
+        if (targetY < 0 || targetY > 7)
+        {
+            return CellState.OutOfBounds;
+        }
+
+        Cell targetCell = mAllCells[targetX, targetY];
+
+        if(targetCell.mCurrentPiece != null){
+            if (targetCell.mCurrentPiece.mColor == checkingPiece.mColor){
+                return CellState.Friendly;
+            }
+            else{
+                return CellState.Enemy;
+            }
+        }
+
         return CellState.Free;
     }
 }
